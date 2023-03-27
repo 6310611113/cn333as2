@@ -2,8 +2,10 @@
 package com.example.quizgame.ui
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -19,14 +21,14 @@ import com.example.quizgame.data.Question
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun QuizScreen(gameViewModel: GameViewModel, onPlayAgain: () -> Unit, onExit: () -> Unit) {
+fun QuizScreen(gameViewModel: GameViewModel, playMore: () -> Unit) {
 
     val uiState by gameViewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Quiz App") }
+                title = { Text("Quiz Game") }
             )
         },
         content = {
@@ -38,8 +40,7 @@ fun QuizScreen(gameViewModel: GameViewModel, onPlayAgain: () -> Unit, onExit: ()
                     10 -> {
                         SummaryScreen(
                             score = uiState.score,
-                            onPlayAgain = onPlayAgain,
-                            onExit = onExit
+                            playMore = playMore
                         )
                     }
                     else -> {
@@ -59,8 +60,14 @@ fun QuizScreen(gameViewModel: GameViewModel, onPlayAgain: () -> Unit, onExit: ()
 }
 
 @Composable
-fun QuestionScreen(question: Question, choices: List<String>, score: Int, quizNum: Int, answer: String, SelectedAnswer: (String) -> Unit) {
-
+fun QuestionScreen(
+    question: Question,
+    choices: List<String>,
+    score: Int,
+    quizNum: Int,
+    answer: String,
+    SelectedAnswer: (String) -> Unit)
+{
     Column(
         modifier = Modifier.padding(16.dp)
             .verticalScroll(rememberScrollState())
@@ -68,30 +75,28 @@ fun QuestionScreen(question: Question, choices: List<String>, score: Int, quizNu
         verticalArrangement = Arrangement.spacedBy(8.dp),
 
         ) {
+
+        Spacer(modifier = Modifier.height(50.dp))
         Row(
             modifier = Modifier
+                .background(color = Color.LightGray)
                 .fillMaxWidth()
-                .padding(top = 16.dp),
-            horizontalArrangement = Arrangement.SpaceAround
-        ) {
-            Text(text = "$quizNum/10")
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentWidth(Alignment.End),
-                text = "score: $score")
+                .padding(all = 20.dp),
+
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
+            Text(text = question.question,
+                fontSize = 20.sp)
         }
-        Spacer(modifier = Modifier.height(50.dp))
-        Text(text = question.question,
-            fontSize = 20.sp)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         choices.forEach { choice ->
             Button(
+                shape = RoundedCornerShape(30.dp),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp),
+                    .padding(bottom = 5.dp),
 
 
                 onClick = { SelectedAnswer(choice) },
@@ -99,13 +104,34 @@ fun QuestionScreen(question: Question, choices: List<String>, score: Int, quizNu
                 ) {
                 Text(text = choice,
                     fontSize = 18.sp)
-            }
+                }
         }
+        Spacer(modifier = Modifier.height(50.dp))
+
+        Row(
+            modifier = Modifier
+                .background(color = Color.LightGray)
+                .fillMaxSize()
+                .padding(all = 10.dp),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Text(text = "ROUND: $quizNum/10",
+                fontSize = 18.sp)
+
+            Text(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentWidth(Alignment.End),
+                text = "Your score: $score",
+                fontSize = 18.sp)
+        }
+
+
     }
 }
 
 @Composable
-fun SummaryScreen(score: Int, onPlayAgain: () -> Unit, onExit: () -> Unit) {
+fun SummaryScreen(score: Int, playMore: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -114,7 +140,7 @@ fun SummaryScreen(score: Int, onPlayAgain: () -> Unit, onExit: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Your score is $score out of 10",
+            text = "Congratulations!!! Your score is $score",
             fontSize = 20.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
@@ -122,7 +148,8 @@ fun SummaryScreen(score: Int, onPlayAgain: () -> Unit, onExit: () -> Unit) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = onPlayAgain,
+            shape = RoundedCornerShape(30.dp),
+            onClick = playMore,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Play Again",
@@ -131,12 +158,5 @@ fun SummaryScreen(score: Int, onPlayAgain: () -> Unit, onExit: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Button(
-            onClick = onExit,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Exit",
-                fontSize = 16.sp)
-        }
     }
 }
