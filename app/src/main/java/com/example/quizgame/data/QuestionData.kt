@@ -7,20 +7,20 @@ class QuestionData {
 
         Question(
             "What is vegetarian food?",
-            listOf("cake", "pancake", "salad", "steak"),
-            "salad"
+            listOf("Cake", "Pancake", "Salad", "Steak"),
+            "Salad"
         ),
 
         Question(
             "Which brand name is a sneaker brand?",
-            listOf("Yayoi", "Nike", "koi", "Audi"),
+            listOf("Yayoi", "Nike", "Koi", "Audi"),
             "Nike"
         ),
 
         Question(
             "What should not be in the bathroom?",
-            listOf("hammer", "shampoo", "soap", "towel"),
-            "hammer"
+            listOf("Hammer", "Shampoo", "Soap", "Towel"),
+            "Hammer"
         ),
 
         Question(
@@ -37,32 +37,32 @@ class QuestionData {
 
         Question(
             "Which band is not a Thai band?",
-            listOf("three man down", "cocktails", "maroon5", "paper plan"),
-            "maroon5"
+            listOf("Three Man Down", "Cocktails", "Maroon 5", "Paper Plane"),
+            "Maroon 5"
         ),
 
         Question(
             "Which name is not the name of the city?",
-            listOf("paris", "bangkok", "tokyo drift", "NewYork"),
-            "tokyo drift"
+            listOf("Paris", "Bangkok", "Tokyo Drift", "New York"),
+            "Tokyo Drift"
         ),
 
         Question(
             "Who is not a singer?",
-            listOf("Rihanna", "selena gomez", "travis scott", "prayut"),
-            "prayut"
+            listOf("Rihanna", "Selena Gomez", "Travis Scott", "Prayut"),
+            "Prayut"
         ),
 
         Question(
             "what is national dish of Italy?",
-            listOf("sushi", "hamburgers", "noodle", "spaghetti"),
-            "spaghetti"
+            listOf("Sushi", "Hamburgers", "Noodle", "Spaghetti"),
+            "Spaghetti"
         ),
 
         Question(
             "What is a non-alcoholic drink?",
-            listOf("coconut milk", "sujo", "beer", "black label"),
-            "coconut milk"
+            listOf("Coconut milk", "Sujo", "Beer", "Black Label"),
+            "Coconut milk"
         ),
 
         )

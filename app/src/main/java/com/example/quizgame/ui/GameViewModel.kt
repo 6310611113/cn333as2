@@ -6,6 +6,7 @@ import com.example.quizgame.data.QuestionData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlin.system.exitProcess
 
 
 class GameViewModel : ViewModel() {
@@ -20,25 +21,24 @@ class GameViewModel : ViewModel() {
     val uiState: StateFlow<gameState> = _uiState.asStateFlow()
 
     fun answerQuestion(answer: String){
-
         if (answer == questions[quizRound].answer) {
-            score = score + 1
+            score ++
         }
-        quizRound = quizRound + 1
+        quizRound ++
+        if (quizRound < 10) {
 
-        if (quizRound > 10) {
             _uiState.value = gameState(
-                currentQuestion = Question("", listOf(), ""),
-                options = listOf(),
+                currentQuestion = questions[quizRound],
+                options = questions[quizRound].choice.shuffled(),
                 score = score,
                 quizRound = quizRound
             )
         }else {
             _uiState.value = gameState(
-                currentQuestion = questions[quizRound],
-                options = questions[quizRound].choice.shuffled(),
+                currentQuestion = Question("", listOf(), ""),
+                options = listOf(),
                 score = score,
-                quizRound = quizRound + 1
+                quizRound = quizRound
             )
         }
     }
@@ -52,15 +52,15 @@ class GameViewModel : ViewModel() {
             currentQuestion = questions[quizRound],
             options = questions[quizRound].choice.shuffled(),
             score = score,
-            quizRound = quizRound + 1
+            quizRound = quizRound
         )
     }
     private fun initialUiState(): gameState {
-        return gameState(
+       return gameState(
             currentQuestion = questions[quizRound],
             options = questions[quizRound].choice.shuffled(),
             score = score,
-            quizRound = quizRound + 1
+            quizRound = quizRound
         )
     }
 
