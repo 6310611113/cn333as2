@@ -1,6 +1,7 @@
 package com.example.quizgame.ui
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,14 +23,14 @@ import com.google.rpc.Help
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun QuizScreen(gameViewModel: GameViewModel, onPlayAgain: () -> Unit, onExit: () -> Unit) {
+fun QuizScreen(gameViewModel: GameViewModel, playMore: () -> Unit) {
 
     val uiState by gameViewModel.uiState.collectAsState()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Quiz App") }
+                title = { Text("Quiz Game") }
             )
         },
         content = {
@@ -44,8 +45,7 @@ fun QuizScreen(gameViewModel: GameViewModel, onPlayAgain: () -> Unit, onExit: ()
                     10 -> {
                         SummaryScreen(
                             score = uiState.score,
-                            onPlayAgain = onPlayAgain,
-                            onExit = onExit
+                            playMore = playMore
                         )
                     }
                     else -> {
@@ -78,6 +78,7 @@ fun QuestionScreen(
             .fillMaxSize()
     ) {
         Box(
+
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)
@@ -132,11 +133,9 @@ fun QuestionScreen(
 
 
 @Composable
-fun SummaryScreen(
-    score: Int,
-    onPlayAgain: () -> Unit,
-    onExit: () -> Unit
-) {
+
+fun SummaryScreen(score: Int,
+                  playMore: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -145,7 +144,7 @@ fun SummaryScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Your score is $score out of 10",
+            text = "Congratulations!!! Your score is $score",
             fontSize = 20.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
@@ -153,7 +152,8 @@ fun SummaryScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = onPlayAgain,
+            shape = RoundedCornerShape(30.dp),
+            onClick = playMore,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = "Play Again",
@@ -162,12 +162,5 @@ fun SummaryScreen(
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        Button(
-            onClick = onExit,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = "Exit",
-                fontSize = 16.sp)
-        }
     }
 }
